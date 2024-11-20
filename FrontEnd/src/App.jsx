@@ -1,0 +1,63 @@
+import { useState } from 'react'
+import Navbar from './components/Navbar';
+import { CiMenuFries } from "react-icons/ci";
+import { Routes, Route, Outlet } from 'react-router-dom';
+import Home from './components/Home';
+
+
+
+function AppLayout() {
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+
+  const closeNavbar = () => setIsNavbarOpen(false);
+
+  return (
+    <div className="flex flex-col lg:flex-row min-h-screen">
+      <div className="flex lg:hidden justify-between items-center bg-gradient-to-r from-[#1e415c] to-[#0B0C10] text-white p-4">
+        <h1 className="font-extrabold text-2xl">Agora</h1>
+        <button
+          className="text-3xl focus:outline-none"
+          onClick={() => setIsNavbarOpen(!isNavbarOpen)}
+          aria-label="Toggle navigation menu"
+        >
+          <CiMenuFries />
+        </button>
+      </div>
+      {isNavbarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={closeNavbar}
+        ></div>
+      )}
+      <div
+        className={`fixed lg:static top-0 left-0 w-2/3 lg:w-3/12 bg-gradient-to-r from-[#1a3143] to-[#0B0C10] text-white min-h-screen z-50 transition-transform duration-300 ease-in-out ${
+          isNavbarOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0`}
+      >
+        <Navbar />
+      </div>
+      <div
+        className={`flex-1 bg-gradient-to-r from-[#1e415c] to-[#0B0C10] text-white min-h-screen ${
+          isNavbarOpen ? "overflow-hidden" : ""
+        }`}
+      >
+        <Outlet />
+      </div>
+    </div>
+  );
+}
+
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <Routes>
+      <Route path="/" element={<AppLayout />}>
+        <Route path="/" element={<Home />} />
+      </Route>
+    </Routes>
+  )
+}
+
+export default App
