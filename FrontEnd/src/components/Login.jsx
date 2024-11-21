@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { SiAgora } from "react-icons/si";
 import axios from 'axios';
+import {useDispatch} from 'react-redux';
+import { authActions } from '../store/auth.js';
 
 const Login = () => {
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [formData , setFormData] = useState({
         email : "",
         password : ""
@@ -25,13 +29,21 @@ const Login = () => {
             }
             else{
                 const resp = await axios.post("http://localhost:3000/user/login" , formData);
-                console.log(resp);
+                if(resp.status == 400){
+                    alert(resp.data.message);
+                }
+                else if(resp.status == 200){
+                    localStorage.setItem("id" , resp.data.id)
+                    localStorage.setItem("token" , resp.data.token)
+                    dispatch(authActions.login())
+                    alert("USER LOGGED IN SUCCESSFULLY")
+                    navigate("/")
+                }
             }
         } catch (error) {
             console.log(error)
         }
     }
-
 
     return (
         <div className='flex flex-col justify-center items-center p-11'>
