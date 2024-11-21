@@ -33,7 +33,7 @@ const Login = () => {
                     alert(resp.data.message);
                 }
                 else if(resp.status == 200){
-                    localStorage.setItem("id" , resp.data.id)
+                    localStorage.setItem("id" , resp.data.userId)
                     localStorage.setItem("token" , resp.data.token)
                     dispatch(authActions.login())
                     alert("USER LOGGED IN SUCCESSFULLY")

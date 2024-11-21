@@ -6,13 +6,14 @@ import Home from "./components/Home";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import { SiAgora } from "react-icons/si";
+import { useDispatch } from "react-redux";
+import { authActions } from './store/auth.js';
 
 function AppLayout() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 1024);
   const location = useLocation();
 
-  // Function to check screen width and update state
   const handleResize = () => setIsMobileView(window.innerWidth <= 1024);
 
   useEffect(() => {
@@ -75,6 +76,13 @@ function AppLayout() {
 }
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+     if(localStorage.getItem("id") && localStorage.getItem("token")){
+        dispatch(authActions.login());
+     }
+  },[])
   return (
     <Routes>
       <Route path="/" element={<AppLayout />}>
