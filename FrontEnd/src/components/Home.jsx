@@ -51,6 +51,7 @@ const Home = () => {
       typed.destroy();
     };
   }, []);
+  
 
   return (
     <div className="p-6 justify-center items-center">

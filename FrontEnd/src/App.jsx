@@ -1,15 +1,28 @@
-import { useState } from 'react'
-import Navbar from './components/Navbar';
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import { CiMenuFries } from "react-icons/ci";
-import { Routes, Route, Outlet } from 'react-router-dom';
-import Home from './components/Home';
-
-
+import Home from "./components/Home";
+import SignUp from "./components/SignUp";
 
 function AppLayout() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const location = useLocation();
+
+  // Check if the current path includes /login or /signup
+  const hideNavbar = ["/login", "/signup"].some(path =>
+    location.pathname.includes(path)
+  );
 
   const closeNavbar = () => setIsNavbarOpen(false);
+
+  if (hideNavbar) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gradient-to-r from-[#1e415c] to-[#0B0C10] text-white">
+        <Outlet />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
@@ -47,17 +60,15 @@ function AppLayout() {
   );
 }
 
-
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <Routes>
-      <Route path="/" element={<AppLayout />}>
-        <Route path="/" element={<Home />} />
-      </Route>
-    </Routes>
-  )
+      <Routes>
+        <Route path="/" element={<AppLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Route>
+      </Routes>
+  );
 }
 
-export default App
+export default App;
