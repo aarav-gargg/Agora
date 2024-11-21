@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { SiAgora } from "react-icons/si";
 
 const SignUp = () => {
-
+    
+    const navigate= useNavigate();
+    
     const [formData , setFormData] = useState({
         name: "",
         email: "",
@@ -17,29 +20,42 @@ const SignUp = () => {
     }
 
     const handleSubmit = async (e) => {
-        console.log("function called")
+        console.log("function called");
         e.preventDefault();
-
+    
         try {
-            if(!formData.name || !formData.password || !formData.confirmPassword || !formData.name) alert("PLEASE FILL ALL THE FIELDS");
-
-            else if(formData.password !== formData.confirmPassword) alert("PASSWORDS DO NOT MATCH");
-
-            else{
-                const resp = await axios.post("http://localhost:3000/user/register" , formData);
-                console.log(resp);
+            if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
+                alert("PLEASE FILL ALL THE FIELDS");
+            } else if (formData.password !== formData.confirmPassword) {
+                alert("PASSWORDS DO NOT MATCH");
+            } else {
+                const resp = await axios.post("http://localhost:3000/user/register", formData);
+                if (resp.status === 400) {
+                    alert(resp.data.message);
+                } else if (resp.status === 200) {
+                    alert("USER HAS BEEN REGISTERED SUCCESSFULLY, LOGIN NOW TO CONTINUE");
+                    navigate("/login");
+                }
             }
         } catch (error) {
-            console.log(error);
+            console.error("Error during registration:", error);
+            if (error.response) {
+                alert(error.response.data.message || "An error occurred during registration.");
+            } else if (error.request) {
+                alert("No response from server. Please try again later.");
+            } else {
+                alert("An unexpected error occurred. Please try again.");
+            }
         }
-    }
+    };
 
     useEffect(()=>{
         console.log(formData)
     },[formData]);
 
     return (
-        <div className='flex justify-center items-center p-11'>
+        <div className='flex flex-col justify-center items-center p-11'>
+            <SiAgora className='text-cyan-400 text-9xl'/>
             <div className='bg-gradient-to-tl w-full max-w-md from-zinc-800 to-zinc-900 border-2 justify-center border-cyan-400  rounded-2xl p-6 flex flex-col'>
                 <div className='text-center mb-6'>
                     <h1 className='text-2xl font-extrabold text-cyan-200'>Welcome to Agora</h1>

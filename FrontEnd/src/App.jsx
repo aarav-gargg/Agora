@@ -1,16 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { CiMenuFries } from "react-icons/ci";
 import Home from "./components/Home";
 import SignUp from "./components/SignUp";
+import Login from "./components/Login";
+import { SiAgora } from "react-icons/si";
 
 function AppLayout() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 1024);
   const location = useLocation();
 
-  // Check if the current path includes /login or /signup
-  const hideNavbar = ["/login", "/signup"].some(path =>
+  // Function to check screen width and update state
+  const handleResize = () => setIsMobileView(window.innerWidth <= 1024);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const hideNavbar = ["/login", "/signup"].some((path) =>
     location.pathname.includes(path)
   );
 
@@ -26,16 +36,20 @@ function AppLayout() {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
-      <div className="flex lg:hidden justify-between items-center bg-gradient-to-r from-[#1e415c] to-[#0B0C10] text-white p-4">
-        <h1 className="font-extrabold text-2xl">Agora</h1>
-        <button
-          className="text-3xl focus:outline-none"
-          onClick={() => setIsNavbarOpen(!isNavbarOpen)}
-          aria-label="Toggle navigation menu"
-        >
-          <CiMenuFries />
-        </button>
-      </div>
+      {(isMobileView || isNavbarOpen) && (
+        <div className="flex lg:hidden justify-between items-center bg-gradient-to-r from-[#1e415c] to-[#0B0C10] text-white p-4">
+          <h1 className="font-extrabold text-2xl flex items-center">
+            <SiAgora className="mr-2" /> Agora
+          </h1>
+          <button
+            className="text-3xl focus:outline-none"
+            onClick={() => setIsNavbarOpen(!isNavbarOpen)}
+            aria-label="Toggle navigation menu"
+          >
+            <CiMenuFries />
+          </button>
+        </div>
+      )}
       {isNavbarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
@@ -62,12 +76,13 @@ function AppLayout() {
 
 function App() {
   return (
-      <Routes>
-        <Route path="/" element={<AppLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<SignUp />} />
-        </Route>
-      </Routes>
+    <Routes>
+      <Route path="/" element={<AppLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+      </Route>
+    </Routes>
   );
 }
 
