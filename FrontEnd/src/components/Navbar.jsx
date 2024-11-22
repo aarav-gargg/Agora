@@ -52,7 +52,7 @@ const Navbar = () => {
     dispatch(authActions.logout());
     localStorage.removeItem("id");
     localStorage.removeItem("token");
-    window.location.reload();
+    navigate("/")
   };
 
   const handleProtectedRoute = (route) => {
@@ -69,10 +69,12 @@ const Navbar = () => {
       <div className="flex items-center gap-3 mb-6">
         <SiAgora className="text-7xl text-[#3bf8eb]" />
         <div className="flex flex-col text-center">
+          <Link to={"/"}>
           <h1 className="text-4xl font-bold font-sans text-white">AGORA</h1>
           <h2 className="text-lg font-mono text-[#C5C6C7]">
             Your Voice, Amplified.
           </h2>
+          </Link>
         </div>
       </div>
 
@@ -98,29 +100,33 @@ const Navbar = () => {
         </div>
       )}
 
-      <div className="my-8 w-full flex flex-col items-center space-y-6">
+      <div className="my-4 w-full flex flex-col items-center space-y-6">
+
+      <Link to={"/"} className="text-xl text-[#2ecc71] font-semibold transition-all ease-in-out duration-300 hover:translate-x-1 hover:translate-y-1 hover:text-[#00b894] cursor-pointer">
+          Home
+        </Link>
         <div
           onClick={() => handleProtectedRoute("/blogs")}
-          className="text-2xl text-[#2ecc71] font-semibold transition-all ease-in-out duration-300 hover:translate-x-1 hover:translate-y-1 hover:text-[#00b894] cursor-pointer"
+          className="text-xl text-[#2ecc71] font-semibold transition-all ease-in-out duration-300 hover:translate-x-1 hover:translate-y-1 hover:text-[#00b894] cursor-pointer"
         >
           Your Blogs
         </div>
         <div
           onClick={() => handleProtectedRoute("/create-blog")}
-          className="text-2xl text-[#2ecc71] font-semibold transition-all ease-in-out duration-300 hover:translate-x-1 hover:translate-y-1 hover:text-[#00b894] cursor-pointer"
+          className="text-xl text-[#2ecc71] font-semibold transition-all ease-in-out duration-300 hover:translate-x-1 hover:translate-y-1 hover:text-[#00b894] cursor-pointer"
         >
           Create Blog
         </div>
-        <Link to={"/about"} className="text-2xl text-[#2ecc71] font-semibold transition-all ease-in-out duration-300 hover:translate-x-1 hover:translate-y-1 hover:text-[#00b894] cursor-pointer">
+        <Link to={"/about"} className="text-xl text-[#2ecc71] font-semibold transition-all ease-in-out duration-300 hover:translate-x-1 hover:translate-y-1 hover:text-[#00b894] cursor-pointer">
           About
         </Link>
-        <Link to={"/view-blogs"} className="text-2xl text-[#2ecc71] font-semibold transition-all ease-in-out duration-300 hover:translate-x-1 hover:translate-y-1 hover:text-[#00b894] cursor-pointer">
+        <Link to={"/view-blogs"} className="text-xl text-[#2ecc71] font-semibold transition-all ease-in-out duration-300 hover:translate-x-1 hover:translate-y-1 hover:text-[#00b894] cursor-pointer">
           View Blogs
         </Link>
       </div>
 
       {isLoggedIn && userDetails && (
-        <div className="absolute bottom-6 flex justify-center w-full">
+        <div className="absolute bottom-3 flex justify-center w-full">
           <button
             onClick={handleLogOut}
             className="bg-[#3498db] text-white px-6 py-3 rounded-full font-bold text-lg shadow-lg hover:bg-red-700 hover:scale-105 transition-all duration-200"

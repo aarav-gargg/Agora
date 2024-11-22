@@ -102,7 +102,6 @@ export const authenticate = async (req, res, next) => {
 
 export const getUserById = async (req, res) => {
   try {
-    console.log(req.params)
     const { id } = req.params;
 
     const user = await User.findById(id);

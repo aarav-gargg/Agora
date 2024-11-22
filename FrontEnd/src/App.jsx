@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import { SiAgora } from "react-icons/si";
 import { useDispatch } from "react-redux";
 import { authActions } from './store/auth.js';
+import CreateBlog from "./components/CreateBlog.jsx";
 
 
 function AppLayout() {
@@ -104,6 +105,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/create-blog" element={<CreateBlog />} />
       </Route>
     </Routes>
   );

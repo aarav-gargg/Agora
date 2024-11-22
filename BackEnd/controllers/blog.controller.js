@@ -136,11 +136,11 @@ export const deleteBlog = async (req, res) => {
 
 export const createBlog = async (req, res) => {
     try {
-        const { title, content } = req.body;
+        const { title, description } = req.body;
 
         const user = req.user;
 
-        const blog = new Blogs({ title, content });
+        const blog = new Blogs({ title, content : description });
         const savedBlog = await blog.save();
 
         user.blogs.push(savedBlog._id);
