@@ -68,7 +68,7 @@ const Home = () => {
       </div>
       <div className='p-4 my-2 '>
         <h2 className='md:text-3xl sm:text-xl font-bold text-[#3bf8eb]'> RECENT BLOGS </h2>
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6'>
           {blogs.length > 0 ? (
             blogs.map((blog, index) => (
               <div key={index} className='m-2 p-2'>

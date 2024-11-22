@@ -9,18 +9,29 @@ import { SiAgora } from "react-icons/si";
 import { useDispatch } from "react-redux";
 import { authActions } from './store/auth.js';
 
+
 function AppLayout() {
+  // Initialize state based on window size
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth < 1024);
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
-  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 1024);
   const location = useLocation();
 
-  const handleResize = () => setIsMobileView(window.innerWidth <= 1024);
+  const handleResize = () => {
+    const isMobile = window.innerWidth < 1024;
+    setIsMobileView(isMobile);
 
+    if (!isMobile) {
+      setIsNavbarOpen(false);
+    }
+  };
+
+ 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  
   const hideNavbar = ["/login", "/signup"].some((path) =>
     location.pathname.includes(path)
   );
@@ -36,44 +47,48 @@ function AppLayout() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen">
-      {(isMobileView || isNavbarOpen) && (
-        <div className="flex lg:hidden justify-between items-center bg-gradient-to-r from-[#1e415c] to-[#0B0C10] text-white p-4">
-          <h1 className="font-extrabold text-2xl flex items-center">
-            <SiAgora className="mr-2" /> Agora
-          </h1>
-          <button
-            className="text-3xl focus:outline-none"
-            onClick={() => setIsNavbarOpen(!isNavbarOpen)}
-            aria-label="Toggle navigation menu"
-          >
-            <CiMenuFries />
-          </button>
-        </div>
-      )}
-      {isNavbarOpen && (
+    <div className="flex min-h-screen">
+      <div
+        className={`fixed top-0 left-0 h-full bg-gradient-to-r from-[#1a3143] to-[#0B0C10] text-white z-50 transition-transform duration-300 ease-in-out ${
+          isMobileView ? "w-2/3" : "w-1/4" 
+        } ${
+          isMobileView && !isNavbarOpen ? "-translate-x-full" : "translate-x-0"
+        } lg:translate-x-0`}
+      >
+        <Navbar />
+      </div>
+
+      {isMobileView && isNavbarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={closeNavbar}
         ></div>
       )}
+
       <div
-        className={`fixed lg:static top-0 left-0 w-2/3 lg:w-3/12 bg-gradient-to-r from-[#1a3143] to-[#0B0C10] text-white min-h-screen z-50 transition-transform duration-300 ease-in-out ${
-          isNavbarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0`}
+        className={`flex-1 ml-0 lg:ml-[25%] bg-gradient-to-r from-[#1e415c] to-[#0B0C10] text-white overflow-y-auto`}
       >
-        <Navbar />
-      </div>
-      <div
-        className={`flex-1 bg-gradient-to-r from-[#1e415c] to-[#0B0C10] text-white min-h-screen ${
-          isNavbarOpen ? "overflow-hidden" : ""
-        }`}
-      >
+        {isMobileView && (
+          <div className="fixed top-0 left-0 w-full z-40 bg-gradient-to-r from-[#1e415c] to-[#0B0C10] text-white p-4 flex justify-between items-center">
+            <h1 className="font-extrabold text-2xl flex items-center">
+              <SiAgora className="mr-2" /> Agora
+            </h1>
+            <button
+              className="text-3xl focus:outline-none"
+              onClick={() => setIsNavbarOpen(!isNavbarOpen)} 
+              aria-label="Toggle navigation menu"
+            >
+              <CiMenuFries />
+            </button>
+          </div>
+        )}
         <Outlet />
       </div>
     </div>
   );
 }
+
+
 
 function App() {
   const dispatch = useDispatch();

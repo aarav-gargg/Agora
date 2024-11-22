@@ -15,7 +15,7 @@ const Blog = ({ name, title, content, date }) => {
     };
 
     return (
-        <div className='border border-white bg-gradient-to-tr from-[#2c4866] to-[#0B0C10] flex flex-col justify-center items-center  p-4  cursor-pointer rounded-xl hover:translate-x-2 hover:translate-y-1 duration-300 ease-out transition-transform'>
+        <div className='border min-w-fit max-w-fit border-white bg-gradient-to-tr from-[#2c4866] to-[#0B0C10] flex flex-col justify-center items-center  p-4  cursor-pointer rounded-xl hover:translate-x-2 hover:translate-y-1 duration-300 ease-out transition-transform'>
             <div className='flex w-full justify-between items-center p-2'>
                 <div className='flex gap-2 items-center'>
                     <FaRegUser className='text-lg' />
@@ -24,7 +24,7 @@ const Blog = ({ name, title, content, date }) => {
 
                 <div className='flex items-center gap-4'>
                     <div className='text-sm'>
-                        Created At: {formattedDate}
+                        Uploaded On: {formattedDate}
                     </div>
                     <div className='relative'>
                         <button 
@@ -47,7 +47,7 @@ const Blog = ({ name, title, content, date }) => {
             </div>
             <hr className='my-1 bg-cyan-600 border-t-2 w-2/4'/>
             <div className='my-2 p-2 flex flex-col gap-2'>
-                <h1 className='text-xl text-orange-400'>{title}</h1>
+                <h1 className='text-xl text-[#ff5733]'>{title}</h1>
                 <p className='text-gray-400'>{content}</p>
             </div>
         </div>
