@@ -5,14 +5,20 @@ import mongoose from "mongoose";
 
 export const updateBlog = async (req, res) => {
     try {
-        const { title, content } = req.body;
-        const { blogId } = req.params;
+        const { title, content} = req.body;
+        const { id } = req.params;
 
-        if (!mongoose.isValidObjectId(blogId)) {
-            return res.status(400).json({ message: "Invalid blog ID" });
+        const user = req.user
+
+        const blog = await Blogs.findById(id);
+
+        if(blog.author != user.id){
+            return res.status(404).json({
+                message : "YOU ARE NOT AUTHORIZED TO UPDATE THE BLOG"
+            })
         }
 
-        const updatedBlog = await Blogs.findByIdAndUpdate(blogId, { title, content }, { new: true });
+        const updatedBlog = await Blogs.findByIdAndUpdate(id, { title, content }, { new: true });
 
         if (!updatedBlog) {
             return res.status(400).json({ message: "No such blog exists" });
@@ -31,7 +37,10 @@ export const updateBlog = async (req, res) => {
 
 export const getAllBlogs = async (req, res) => {
     try {
-        const allBlogs = await Blogs.find();
+        const allBlogs = await Blogs.find().populate({
+            path : "author",
+            options: { sort: { createdAt: -1 } }
+        });
         return res.status(200).json({
             message: "Blogs fetched successfully",
             allBlogs
@@ -99,31 +108,34 @@ export const getBlogById = async (req, res) => {
 
 export const deleteBlog = async (req, res) => {
     try {
-        const { blogId } = req.params;
+        const { id } = req.params;
 
         const user = req.user;
-        const userId = user.id;
 
-        if (!mongoose.isValidObjectId(blogId)) {
-            return res.status(400).json({ message: "Invalid blog ID" });
+        // if (foundedUser.role !== 'Admin') {
+        //     return res.status(403).json({
+        //         message: "You are not authorized to delete the post"
+        //     });
+        // }
+
+        const blog = await Blogs.findById(id);
+
+        if(blog.author != user.id){
+            return res.status(404).json({
+                message : "YOU ARE NOT AUTHORIZED TO DELETE THE BLOG"
+            })
         }
 
-        const foundedUser = await User.findById(userId);
-
-        if (foundedUser.role !== 'Admin') {
-            return res.status(403).json({
-                message: "You are not authorized to delete the post"
-            });
-        }
-
-        const deletedBlog = await Blogs.findByIdAndDelete(blogId);
+        const deletedBlog = await Blogs.findByIdAndDelete(id);
 
         if (!deletedBlog) {
             return res.status(400).json({
                 message: "No such blog exists"
             });
         }
-
+        await User.findByIdAndUpdate(user.id, {
+            $pull: { blogs: id } 
+        });
         return res.status(200).json({
             message: "Blog deleted successfully"
         });
@@ -136,11 +148,11 @@ export const deleteBlog = async (req, res) => {
 
 export const createBlog = async (req, res) => {
     try {
-        const { title, description } = req.body;
+        const { title, description , userId } = req.body;
 
         const user = req.user;
 
-        const blog = new Blogs({ title, content : description });
+        const blog = new Blogs({ title, content : description , author : userId});
         const savedBlog = await blog.save();
 
         user.blogs.push(savedBlog._id);
@@ -156,3 +168,7 @@ export const createBlog = async (req, res) => {
         });
     }
 };
+
+export const makeAdmin = async (req,res) => {
+
+}

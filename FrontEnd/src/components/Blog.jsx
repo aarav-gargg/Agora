@@ -36,9 +36,9 @@ const Blog = ({ name, title, content, date }) => {
                         {showDropdown && (
                             <div className='absolute right-0 bg-[#2c4866] text-white border border-white rounded-md shadow-md mt-2 w-40'>
                                 <ul className='text-sm'>
-                                    <li className='px-4 py-2 hover:bg-[#0B0C10] cursor-pointer'>View</li>
-                                    <li className='px-4 py-2 hover:bg-[#0B0C10] cursor-pointer'>Update</li>
-                                    <li className='px-4 py-2 hover:bg-[#0B0C10] cursor-pointer'>Delete</li>
+                                    <li className='px-4 py-2 hover:bg-zinc-800 cursor-pointer'>View</li>
+                                    <li className='px-4 py-2 hover:bg-zinc-800 cursor-pointer'>Update</li>
+                                    <li className='px-4 py-2 hover:bg-zinc-800 cursor-pointer'>Delete</li>
                                 </ul>
                             </div>
                         )}

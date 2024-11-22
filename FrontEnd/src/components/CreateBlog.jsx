@@ -5,6 +5,7 @@ const CreateBlog = () => {
     const [formData, setFormData] = useState({
         title: "",
         description: "",
+        userId : localStorage.getItem("id")
     });
 
     const headers = {
@@ -110,9 +111,9 @@ const CreateBlog = () => {
                     <div className="flex justify-center">
                         <button
                             type="submit"
-                            className="bg-[#3bf8eb] hover:bg-[#2be7d9] text-black font-bold text-lg py-3 px-6 rounded-full shadow-lg transition-transform hover:scale-105 duration-200"
+                            className="bg-[#3bf8eb] hover:bg-[#2be7d9] hover:border-2 text-black font-bold text-lg py-3 px-6 rounded-full shadow-lg transition-transform hover:scale-105 duration-200"
                         >
-                            Add Blog
+                            Publish
                         </button>
                     </div>
                 </form>
