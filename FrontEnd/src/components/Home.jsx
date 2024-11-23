@@ -64,15 +64,18 @@ const Home = () => {
       </div>
       <div className='p-4 my-2'>
         <h2 className='md:text-3xl sm:text-xl font-bold text-[#3bf8eb]'>RECENT BLOGS</h2>
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6'>
+       <div className='container mx-auto p-4'>
+       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6'>
           {blogs.length > 0 ? (
             blogs.map((blog, index) => (
               <div key={index} className='m-2 p-2'>
                 <Blog 
                   name={blog.author ? blog.author.name : 'Unknown'}
                   title={blog.title} 
-                  content={blog.content.length > 300 ? blog.content.substring(0, 300) + '...' : blog.content}
+                  content={blog.content}
                   date={blog.createdAt} 
+                  authorId = {blog.author ? blog.author._id : null}
+                  id = {blog._id}
                 />
               </div>
             ))
@@ -80,6 +83,7 @@ const Home = () => {
             <p>No blogs available at the moment.</p>
           )}
         </div>
+       </div>
       </div>
     </div>
   );

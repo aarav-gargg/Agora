@@ -110,6 +110,8 @@ export const deleteBlog = async (req, res) => {
     try {
         const { id } = req.params;
 
+        console.log("id" , id)
+
         const user = req.user;
 
         // if (foundedUser.role !== 'Admin') {
@@ -168,7 +170,3 @@ export const createBlog = async (req, res) => {
         });
     }
 };
-
-export const makeAdmin = async (req,res) => {
-
-}
