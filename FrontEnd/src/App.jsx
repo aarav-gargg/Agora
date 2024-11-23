@@ -11,6 +11,7 @@ import { authActions } from './store/auth.js';
 import CreateBlog from "./components/CreateBlog.jsx";
 import EditBlog from "./components/EditBlog.jsx";
 import YourBlogs from "./components/YourBlogs.jsx";
+import Blogs from "./components/Blogs.jsx";
 
 
 function AppLayout() {
@@ -110,6 +111,7 @@ function App() {
         <Route path="/create-blog" element={<CreateBlog />} />
         <Route path="/edit-blog" element={<EditBlog />} />
         <Route path="/:userId/blogs" element={<YourBlogs />} />
+        <Route path="/view-blogs" element={<Blogs />} />
       </Route>
     </Routes>
   );
