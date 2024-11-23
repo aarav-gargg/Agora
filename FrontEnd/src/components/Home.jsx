@@ -4,21 +4,12 @@ import Blog from './Blog';
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import axios from 'axios';
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 const Home = () => {
   const el = useRef(null);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [blogs, setBlogs] = useState([]);
-
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: true,
-      offset: 100,
-    });
-  }, []);
+;
 
   useEffect(() => {
     const fetch = async () => {
@@ -78,8 +69,7 @@ const Home = () => {
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6'>
             {blogs.length > 0 ? (
               blogs.slice(0, 6).map((blog, index) => ( // Limit to the first 6 blogs
-                <div key={index} className='m-2 p-2'  data-aos="fade-up"
-                data-aos-anchor-placement="center-bottom">
+                <div key={index} className='m-2 p-2' >
                   <Blog 
                     name={blog.author ? blog.author.name : 'Unknown'}
                     title={blog.title} 

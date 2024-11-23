@@ -12,6 +12,7 @@ import CreateBlog from "./components/CreateBlog.jsx";
 import EditBlog from "./components/EditBlog.jsx";
 import YourBlogs from "./components/YourBlogs.jsx";
 import Blogs from "./components/Blogs.jsx";
+import BlogById from "./components/BlogById.jsx";
 
 
 function AppLayout() {
@@ -112,6 +113,7 @@ function App() {
         <Route path="/edit-blog" element={<EditBlog />} />
         <Route path="/:userId/blogs" element={<YourBlogs />} />
         <Route path="/view-blogs" element={<Blogs />} />
+        <Route path="/:id/blog" element={<BlogById />} />
       </Route>
     </Routes>
   );

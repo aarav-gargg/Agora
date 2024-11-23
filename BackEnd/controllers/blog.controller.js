@@ -87,7 +87,10 @@ export const getBlogById = async (req, res) => {
             return res.status(400).json({ message: "Invalid blog ID" });
         }
 
-        const blog = await Blogs.findById(blogId);
+        const blog = await Blogs.findById(blogId).populate({
+            path : "author",
+            options: { sort: { createdAt: -1 } }
+        });;
 
         if (!blog) {
             return res.status(400).json({

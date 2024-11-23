@@ -3,15 +3,16 @@ import axios from "axios";
 import { FaRegUser } from "react-icons/fa6";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useNavigate } from "react-router-dom";
 
 const Blogs = () => {
+  const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         const resp = await axios.get("http://localhost:3000/blog/all");
-        console.log(resp);
         if (resp.status === 200) {
           setBlogs(resp.data.allBlogs);
         }
@@ -29,7 +30,6 @@ const Blogs = () => {
 
     fetchBlogs();
   }, []);
-
 
   useEffect(() => {
     AOS.init({
@@ -53,6 +53,7 @@ const Blogs = () => {
           {blogs.length > 0 ? (
             blogs.slice(0, 6).map((blog, index) => (
               <div
+              onClick={() => navigate(`/${blog._id}/blog`)}
                 data-aos="zoom-in"
                 key={index}
                 className="p-4 border rounded-lg shadow-lg bg-gradient-to-tl from-zinc-800 to-zinc-900 hover:shadow-xl transition-shadow duration-300 cursor-pointer hover:border-2"
