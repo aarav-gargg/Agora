@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { authActions } from './store/auth.js';
 import CreateBlog from "./components/CreateBlog.jsx";
 import EditBlog from "./components/EditBlog.jsx";
+import YourBlogs from "./components/YourBlogs.jsx";
 
 
 function AppLayout() {
@@ -108,6 +109,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/create-blog" element={<CreateBlog />} />
         <Route path="/edit-blog" element={<EditBlog />} />
+        <Route path="/:userId/blogs" element={<YourBlogs />} />
       </Route>
     </Routes>
   );

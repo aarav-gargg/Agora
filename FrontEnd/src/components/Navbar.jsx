@@ -4,7 +4,7 @@ import { FaCircleUser } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { authActions } from "../store/auth.js";
 
 const Navbar = () => {
@@ -106,7 +106,7 @@ const Navbar = () => {
           Home
         </Link>
         <div
-          onClick={() => handleProtectedRoute("/blogs")}
+          onClick={() => handleProtectedRoute(`/${userId}/blogs`)}
           className="text-xl text-[#2ecc71] font-semibold transition-all ease-in-out duration-300 hover:translate-x-1 hover:translate-y-1 hover:text-[#00b894] cursor-pointer"
         >
           Your Blogs

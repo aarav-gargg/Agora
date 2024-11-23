@@ -70,7 +70,7 @@ export const getUserBlogs = async (req, res) => {
 
         return res.status(200).json({
             message: "Blogs fetched successfully",
-            blogs: userBlogs.blogs
+            blogs: userBlogs,
         });
     } catch (error) {
         return res.status(400).json({

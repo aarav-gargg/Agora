@@ -6,7 +6,7 @@ import EditBlog from './EditBlog';
 import { useNavigate } from 'react-router-dom';
 
 const Blog = ({ name, title, content, date, authorId, id }) => {
-
+    
     const navigate = useNavigate();
 
     const headers = {
@@ -80,8 +80,8 @@ const Blog = ({ name, title, content, date, authorId, id }) => {
                     </div>
 
                     <div className='flex items-center gap-4'>
-                        <div className='text-sm'>
-                            Uploaded On: {formattedDate}
+                        <div className='text-xs'>
+                           {formattedDate}
                         </div>
                         <div className='relative'>
                             <button
