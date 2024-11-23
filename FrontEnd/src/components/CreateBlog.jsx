@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const CreateBlog = () => {
+    const navigate = useNavigate();
+    const userId = localStorage.getItem("id")
     const [formData, setFormData] = useState({
         title: "",
         description: "",
@@ -25,6 +28,7 @@ const CreateBlog = () => {
             console.log(response)
             if (response.status == 201) {
                 alert("BLOG CREATED SUCCESSFULLY")
+                navigate(`/${userId}/blogs`)
             }
             setFormData({ title: "", description: "" });
         } catch (error) {
