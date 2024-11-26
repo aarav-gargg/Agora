@@ -30,7 +30,7 @@ const Blog = ({ name, title, content, date, authorId, id }) => {
             alert("YOU ARE NOT AUTHORIZED TO DELETE THIS BLOG");
         } else {
             try {
-                const resp = await axios.delete(`http://localhost:3000/blog/delete/${id}`, { headers });
+                const resp = await axios.delete(`https://agora-1-dafa.onrender.com/blog/delete/${id}`, { headers });
                 console.log(resp);
                 if (resp.status === 404) {
                     alert("YOU ARE NOT AUTHORIZED TO DELETE THIS BLOG");

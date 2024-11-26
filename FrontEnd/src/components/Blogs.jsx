@@ -8,11 +8,13 @@ import { useNavigate } from "react-router-dom";
 const Blogs = () => {
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBlogs = async () => {
+      setLoading(true);
       try {
-        const resp = await axios.get("http://localhost:3000/blog/all");
+        const resp = await axios.get("https://agora-1-dafa.onrender.com/blog/all");
         if (resp.status === 200) {
           setBlogs(resp.data.allBlogs);
         }
@@ -25,6 +27,8 @@ const Blogs = () => {
         } else {
           alert("An unexpected error occurred. Please try again.");
         }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -49,41 +53,47 @@ const Blogs = () => {
       </div>
 
       <div className="container mx-auto p-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogs.length > 0 ? (
-            blogs.slice(0, 6).map((blog, index) => (
-              <div
-              onClick={() => navigate(`/${blog._id}/blog`)}
-                data-aos="zoom-in"
-                key={index}
-                className="p-4 border rounded-lg shadow-lg bg-gradient-to-tl from-zinc-800 to-zinc-900 hover:shadow-xl transition-shadow duration-300 cursor-pointer hover:border-2"
-              >
-                <div className="flex items-center mb-4">
-                  <FaRegUser className="text-2xl text-gray-200 mr-3" />
-                  <span className="text-lg font-semibold text-gray-600">
-                    {blog.author?.name || "Unknown Author"}
-                  </span>
+        {loading ? (
+          <div className="flex justify-center items-center min-h-[20vh]">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-cyan-600 border-solid"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {blogs.length > 0 ? (
+              blogs.map((blog, index) => (
+                <div
+                  onClick={() => navigate(`/${blog._id}/blog`)}
+                  data-aos="zoom-in"
+                  key={index}
+                  className="p-4 border rounded-lg shadow-lg bg-gradient-to-tl from-zinc-800 to-zinc-900 hover:shadow-xl transition-shadow duration-300 cursor-pointer hover:border-2"
+                >
+                  <div className="flex items-center mb-4">
+                    <FaRegUser className="text-2xl text-gray-200 mr-3" />
+                    <span className="text-lg font-semibold text-gray-600">
+                      {blog.author?.name || "Unknown Author"}
+                    </span>
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-gray-200 mb-2">
+                    {blog.title}
+                  </h3>
+
+                  <p className="text-gray-400 line-clamp-3 mb-4">
+                    {blog.content}
+                  </p>
+
+                  <p className="text-sm text-gray-500">
+                    Published on: {new Date(blog.createdAt).toLocaleDateString()}
+                  </p>
                 </div>
-
-                <h3 className="text-2xl font-bold text-gray-200 mb-2">
-                  {blog.title}
-                </h3>
-
-                <p className="text-gray-400 line-clamp-3 mb-4">
-                  {blog.content}
-                </p>
-
-                <p className="text-sm text-gray-500">
-                  Published on: {new Date(blog.createdAt).toLocaleDateString()}
-                </p>
-              </div>
-            ))
-          ) : (
-            <p className="col-span-full text-center text-gray-500">
-              No blogs available at the moment.
-            </p>
-          )}
-        </div>
+              ))
+            ) : (
+              <p className="col-span-full text-center text-gray-500">
+                No blogs available at the moment.
+              </p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

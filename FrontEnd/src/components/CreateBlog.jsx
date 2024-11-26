@@ -26,7 +26,7 @@ const CreateBlog = () => {
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
-            const response = await axios.post('http://localhost:3000/blog/create', formData, { headers });
+            const response = await axios.post('https://agora-1-dafa.onrender.com/blog/create', formData, { headers });
             console.log(response)
             if (response.status == 201) {
                 alert("BLOG CREATED SUCCESSFULLY")

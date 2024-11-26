@@ -109,7 +109,7 @@ function App() {
         return;
       }
 
-      const response = await axios.post("http://localhost:3000/user/verify", {token});
+      const response = await axios.post("https://agora-1-dafa.onrender.com/user/verify", {token});
 
       if (response.status === 200) {
         dispatch(authActions.login());

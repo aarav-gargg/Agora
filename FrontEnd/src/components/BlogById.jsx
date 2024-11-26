@@ -27,7 +27,7 @@ const BlogById = () => {
     }
     try {
       const response = await axios.post(
-        `http://localhost:3000/comment/create`,
+        `https://agora-1-dafa.onrender.com/comment/create`,
         {
           blogId: id,
           content: commentContent,
@@ -46,7 +46,7 @@ const BlogById = () => {
   const handleDeleteComment = async (commentId) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/comment/delete/${commentId}`, {blogId : id},
+        `https://agora-1-dafa.onrender.com/comment/delete/${commentId}`, {blogId : id},
         { headers }
       );
       if (response.status === 201) {
@@ -78,7 +78,7 @@ const BlogById = () => {
     }
     try {
       const response = await axios.put(
-        `http://localhost:3000/comment/update/${isEditing}`,
+        `https://agora-1-dafa.onrender.com/comment/update/${isEditing}`,
         { content: editContent },
         { headers }
       );
@@ -101,7 +101,7 @@ const BlogById = () => {
 
   const fetchComments = async () => {
     try {
-      const resp = await axios.post("http://localhost:3000/comment/get", {
+      const resp = await axios.post("https://agora-1-dafa.onrender.com/comment/get", {
         blogId: id,
       });
       if (resp.status === 200) {
@@ -123,7 +123,7 @@ const BlogById = () => {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/blog/blogByID/${id}`
+          `https://agora-1-dafa.onrender.com/blog/blogByID/${id}`
         );
         if (response.status === 200) {
           setBlog(response.data.blog);

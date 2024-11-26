@@ -28,7 +28,7 @@ const Login = () => {
                 alert("Please fill in all fields");
             }
             else{
-                const resp = await axios.post("http://localhost:3000/user/login" , formData);
+                const resp = await axios.post("https://agora-1-dafa.onrender.com/user/login" , formData);
                 if(resp.status == 400){
                     alert(resp.data.message);
                 }

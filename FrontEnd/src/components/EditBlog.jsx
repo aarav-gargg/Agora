@@ -26,7 +26,7 @@ const EditBlog = () => {
         e.preventDefault();
         try {
             const response = await axios.put(
-                `http://localhost:3000/blog/update/${id}`,
+                `https://agora-1-dafa.onrender.com/blog/update/${id}`,
                 { title: formData.title, content: formData.description},
                 { headers }
             );

@@ -17,7 +17,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/user/${userId}`);
+        const response = await axios.get(`https://agora-1-dafa.onrender.com/user/${userId}`);
         if (response.status === 200) {
           setUserDetails(response.data);
         }

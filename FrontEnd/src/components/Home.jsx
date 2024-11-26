@@ -9,15 +9,15 @@ const Home = () => {
   const el = useRef(null);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [blogs, setBlogs] = useState([]);
-;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true); 
       try {
-        const resp = await axios.get("http://localhost:3000/blog/all");
-
+        const resp = await axios.get("https://agora-1-dafa.onrender.com/blog/all");
         if (resp.status === 200) {
-          setBlogs(resp.data.allBlogs); 
+          setBlogs(resp.data.allBlogs);
         }
       } catch (error) {
         console.error("Error during fetch:", error);
@@ -28,8 +28,10 @@ const Home = () => {
         } else {
           alert("An unexpected error occurred. Please try again.");
         }
+      } finally {
+        setLoading(false); 
       }
-    }
+    };
 
     fetch();
   }, []);
@@ -67,21 +69,27 @@ const Home = () => {
         <h2 className='md:text-3xl sm:text-xl font-bold text-[#3bf8eb]'>RECENT BLOGS</h2>
         <div className='container mx-auto p-4'>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6'>
-            {blogs.length > 0 ? (
-              blogs.slice(0, 6).map((blog, index) => ( // Limit to the first 6 blogs
-                <div key={index} className='m-2 p-2' >
-                  <Blog 
-                    name={blog.author ? blog.author.name : 'Unknown'}
-                    title={blog.title} 
-                    content={blog.content}
-                    date={blog.createdAt} 
-                    authorId={blog.author ? blog.author._id : null}
-                    id={blog._id}
-                  />
-                </div>
-              ))
+            {loading ? ( 
+              <div className="flex justify-center items-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
+              </div>
             ) : (
-              <p>No blogs available at the moment.</p>
+              blogs.length > 0 ? (
+                blogs.slice(0, 6).map((blog, index) => ( 
+                  <div key={index} className='m-2 p-2' >
+                    <Blog 
+                      name={blog.author ? blog.author.name : 'Unknown'}
+                      title={blog.title} 
+                      content={blog.content}
+                      date={blog.createdAt} 
+                      authorId={blog.author ? blog.author._id : null}
+                      id={blog._id}
+                    />
+                  </div>
+                ))
+              ) : (
+                <p>No blogs available at the moment.</p>
+              )
             )}
           </div>
         </div>

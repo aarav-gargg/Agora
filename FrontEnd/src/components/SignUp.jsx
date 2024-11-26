@@ -29,7 +29,7 @@ const SignUp = () => {
             } else if (formData.password !== formData.confirmPassword) {
                 alert("PASSWORDS DO NOT MATCH");
             } else {
-                const resp = await axios.post("http://localhost:3000/user/register", formData);
+                const resp = await axios.post("https://agora-1-dafa.onrender.com/user/register", formData);
                 if (resp.status === 400) {
                     alert(resp.data.message);
                 } else if (resp.status === 200) {
