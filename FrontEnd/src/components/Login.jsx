@@ -29,10 +29,7 @@ const Login = () => {
             }
             else{
                 const resp = await axios.post("https://agora-1-dafa.onrender.com/user/login" , formData);
-                if(resp.status == 400){
-                    alert(resp.data.message);
-                }
-                else if(resp.status == 200){
+                if(resp.status == 200){
                     localStorage.setItem("id" , resp.data.userId)
                     localStorage.setItem("token" , resp.data.token)
                     dispatch(authActions.login())
@@ -41,7 +38,14 @@ const Login = () => {
                 }
             }
         } catch (error) {
-            console.log(error)
+            console.error("Error during registration:", error);
+            if (error.response) {
+                alert(error.response.data.message || "An error occurred during registration.");
+            } else if (error.request) {
+                alert("No response from server. Please try again later.");
+            } else {
+                alert("An unexpected error occurred. Please try again.");
+            }
         }
     }
 
