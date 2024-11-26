@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotnev from 'dotenv'
 import userRoutes from "./routes/user.route.js"
 import blogRoutes from "./routes/blog.route.js"
+import commentRoutes from "./routes/comment.route.js"
 
 
 const app = express();
@@ -17,9 +18,10 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
 app.use(cors());
 app.use(express.json());
 
-app.use("/user" , userRoutes);
-app.use("/blog" , blogRoutes);
+app.use("/user", userRoutes);
+app.use("/blog", blogRoutes);
+app.use("/comment", commentRoutes);
 
-app.listen(3000 , ()=>{
+app.listen(3000, () => {
     console.log('Server is running on port 3000');
 })
