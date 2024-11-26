@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { CiMenuFries } from "react-icons/ci";
 import Home from "./components/Home";
@@ -13,6 +13,7 @@ import EditBlog from "./components/EditBlog.jsx";
 import YourBlogs from "./components/YourBlogs.jsx";
 import Blogs from "./components/Blogs.jsx";
 import BlogById from "./components/BlogById.jsx";
+import axios from 'axios'
 
 
 function AppLayout() {
@@ -97,12 +98,50 @@ function AppLayout() {
 
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  useEffect(()=>{
-     if(localStorage.getItem("id") && localStorage.getItem("token")){
+  const verifyToken = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        dispatch(authActions.logout());
+        return;
+      }
+
+      const response = await axios.post("http://localhost:3000/user/verify", {token});
+
+      if (response.status === 200) {
         dispatch(authActions.login());
-     }
-  },[])
+        return;
+      } else if(response.status == 401 || response.status == 400){
+        dispatch(authActions.logout());
+        localStorage.removeItem("id");
+        localStorage.removeItem("token")
+        alert("session expired");
+        navigate("/login")
+      }
+      else{
+        dispatch(authActions.logout());
+        localStorage.removeItem("id");
+        localStorage.removeItem("token")
+      }
+    } catch (error) {
+      dispatch(authActions.logout());
+      localStorage.removeItem("id");
+      localStorage.removeItem("token")
+      console.error("Token verification failed:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("id") && localStorage.getItem("token")) {
+      verifyToken();
+    }
+    else{
+
+    }
+  }, [verifyToken]);
+
   return (
     <Routes>
       <Route path="/" element={<AppLayout />}>

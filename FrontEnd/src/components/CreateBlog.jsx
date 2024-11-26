@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 const CreateBlog = () => {
     const navigate = useNavigate();
+
+    
     const userId = localStorage.getItem("id")
     const [formData, setFormData] = useState({
         title: "",

@@ -120,3 +120,16 @@ export const getUserById = async (req, res) => {
     });
   }
 }
+
+export const verifyToken = async (req,res) => {
+  try {
+     const {token} = req.body;
+     if(!token){
+      return res.status(400).json({message: "Token is required"})
+     }
+     const decoded = jwt.verify(token, process.env.SECRET_KEY);
+     return res.status(200).json({ valid: true, userId: decoded.id });
+  } catch (error) {
+    return res.status(401).json({ valid: false, message: "Token is invalid or expired" });
+  }
+}
