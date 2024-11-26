@@ -14,6 +14,7 @@ import YourBlogs from "./components/YourBlogs.jsx";
 import Blogs from "./components/Blogs.jsx";
 import BlogById from "./components/BlogById.jsx";
 import axios from 'axios'
+import About from "./components/About.jsx";
 
 
 function AppLayout() {
@@ -153,6 +154,7 @@ function App() {
         <Route path="/:userId/blogs" element={<YourBlogs />} />
         <Route path="/view-blogs" element={<Blogs />} />
         <Route path="/:id/blog" element={<BlogById />} />
+        <Route path="/about" element={<About />} />
       </Route>
     </Routes>
   );
