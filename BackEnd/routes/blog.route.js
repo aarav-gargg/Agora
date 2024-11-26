@@ -8,7 +8,7 @@ router.post("/create" , authenticate , createBlog);
 router.put("/update/:id" , authenticate , updateBlog);
 router.get("/all" , getAllBlogs);
 router.get("/userBlog" , authenticate , getUserBlogs);
-router.get("/blogByID/:blogId" , authenticate , getBlogById);
+router.get("/blogByID/:blogId" , getBlogById);
 router.delete("/delete/:id" , authenticate , deleteBlog);
 
 
