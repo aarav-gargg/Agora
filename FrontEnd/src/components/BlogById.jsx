@@ -5,13 +5,13 @@ import { FaRegUser } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const BlogById = () => {
-  const [blog, setBlog] = useState(null); 
+  const [blog, setBlog] = useState(null);
   const { id } = useParams();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [commentContent, setCommentContent] = useState("");
   const [comments, setComments] = useState([]);
-  const [isEditing, setIsEditing] = useState(null); 
-  const [editContent, setEditContent] = useState(""); 
+  const [isEditing, setIsEditing] = useState(null);
+  const [editContent, setEditContent] = useState("");
   const userId = localStorage.getItem("id");
 
   const headers = {
@@ -28,10 +28,7 @@ const BlogById = () => {
     try {
       const response = await axios.post(
         `https://agora-1-dafa.onrender.com/comment/create`,
-        {
-          blogId: id,
-          content: commentContent,
-        },
+        { blogId: id, content: commentContent },
         { headers }
       );
       if (response.status === 201) {
@@ -46,7 +43,8 @@ const BlogById = () => {
   const handleDeleteComment = async (commentId) => {
     try {
       const response = await axios.post(
-        `https://agora-1-dafa.onrender.com/comment/delete/${commentId}`, {blogId : id},
+        `https://agora-1-dafa.onrender.com/comment/delete/${commentId}`,
+        { blogId: id },
         { headers }
       );
       if (response.status === 201) {
@@ -54,14 +52,8 @@ const BlogById = () => {
         fetchComments();
       }
     } catch (error) {
-      console.error("Error during registration:", error);
-            if (error.response) {
-                alert(error.response.data.message || "An error occurred during registration.");
-            } else if (error.request) {
-                alert("No response from server. Please try again later.");
-            } else {
-                alert("An unexpected error occurred. Please try again.");
-            }
+      console.error(error);
+      alert("An error occurred while deleting the comment.");
     }
   };
 
@@ -88,34 +80,23 @@ const BlogById = () => {
         fetchComments();
       }
     } catch (error) {
-      console.error("Error during registration:", error);
-            if (error.response) {
-                alert(error.response.data.message || "An error occurred during registration.");
-            } else if (error.request) {
-                alert("No response from server. Please try again later.");
-            } else {
-                alert("An unexpected error occurred. Please try again.");
-            }
+      console.error(error);
+      alert("An error occurred while updating the comment.");
     }
   };
 
   const fetchComments = async () => {
     try {
-      const resp = await axios.post("https://agora-1-dafa.onrender.com/comment/get", {
-        blogId: id,
-      });
-      if (resp.status === 200) {
-        setComments(resp.data.comments);
+      const response = await axios.post(
+        "https://agora-1-dafa.onrender.com/comment/get",
+        { blogId: id }
+      );
+      if (response.status === 200) {
+        setComments(response.data.comments);
       }
     } catch (error) {
-      console.error("Error during registration:", error);
-            if (error.response) {
-                alert(error.response.data.message || "An error occurred during registration.");
-            } else if (error.request) {
-                alert("No response from server. Please try again later.");
-            } else {
-                alert("An unexpected error occurred. Please try again.");
-            }
+      console.error(error);
+      alert("An error occurred while fetching comments.");
     }
   };
 
@@ -129,14 +110,8 @@ const BlogById = () => {
           setBlog(response.data.blog);
         }
       } catch (error) {
-        console.error("Error during registration:", error);
-        if (error.response) {
-            alert(error.response.data.message || "An error occurred during registration.");
-        } else if (error.request) {
-            alert("No response from server. Please try again later.");
-        } else {
-            alert("An unexpected error occurred. Please try again.");
-        }
+        console.error(error);
+        alert("An error occurred while fetching the blog.");
       }
     };
     fetchBlog();
@@ -171,6 +146,7 @@ const BlogById = () => {
             Published on: {new Date(blog.createdAt).toLocaleDateString()}
           </p>
         </div>
+
         <div className="mt-8">
           <h2 className="text-2xl font-semibold mb-4 text-cyan-400">
             Comments
@@ -180,38 +156,47 @@ const BlogById = () => {
               {comments.map((comment) => (
                 <li
                   key={comment._id}
-                  className="bg-gradient-to-r from-zinc-800 to-zinc-700 rounded-lg p-4 relative"
+                  className="bg-gradient-to-r from-zinc-800 to-zinc-700 rounded-lg p-4 flex flex-col space-y-4 md:flex-row md:justify-between"
                 >
                   {isEditing === comment._id ? (
-                    <form onSubmit={handleUpdateComment}>
+                    <form
+                      onSubmit={handleUpdateComment}
+                      className="flex flex-col w-full"
+                    >
                       <textarea
                         className="w-full bg-zinc-900 text-white p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
                         value={editContent}
                         onChange={(e) => setEditContent(e.target.value)}
                         rows="3"
                       ></textarea>
-                      <button
-                        type="submit"
-                        className="mt-2 px-4 py-2 bg-cyan-500 text-white font-semibold rounded-lg hover:bg-cyan-600 transition"
-                      >
-                        Update
-                      </button>
-                      <button
-                        type="button"
-                        className="mt-2 ml-2 px-4 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition"
-                        onClick={() => setIsEditing(null)}
-                      >
-                        Cancel
-                      </button>
+                      <div className="mt-2 flex justify-end space-x-2">
+                        <button
+                          type="submit"
+                          className="px-4 py-2 bg-cyan-500 text-white font-semibold rounded-lg hover:bg-cyan-600 transition"
+                        >
+                          Update
+                        </button>
+                        <button
+                          type="button"
+                          className="px-4 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition"
+                          onClick={() => setIsEditing(null)}
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </form>
                   ) : (
-                    <>
-                      <p className="text-gray-100 font-bold">{comment.content}</p>
-                      <span className="text-sm text-gray-500">
-                        - {comment.user?.name || "Anonymous"}
-                      </span>
+                    <div className="flex flex-col md:flex-row w-full">
+                      <div className="flex-1">
+                        <p className="text-gray-100 font-bold">
+                          {comment.content}
+                        </p>
+                        <span className="text-sm text-gray-500">
+                          - {comment.user?.name || "Anonymous"}
+                        </span>
+                      </div>
                       {comment.user?._id === userId && (
-                        <div className="absolute right-4 top-4 flex space-x-2">
+                        <div className="flex space-x-4 mt-2 md:mt-0">
                           <button
                             onClick={() => handleEditComment(comment)}
                             className="text-blue-500 hover:underline"
@@ -226,17 +211,17 @@ const BlogById = () => {
                           </button>
                         </div>
                       )}
-                    </>
+                    </div>
                   )}
                 </li>
               ))}
             </ul>
           ) : (
-            <div>
-              <p className="text-gray-400">No comments yet. Be the first to comment!</p>
-              <p className="text-gray-400">Note: You have to login to be able to comment</p>
-            </div>
+            <p className="text-gray-400">
+              No comments yet. Be the first to comment!
+            </p>
           )}
+
           {isLoggedIn && (
             <form
               onSubmit={handleCommentSubmit}
