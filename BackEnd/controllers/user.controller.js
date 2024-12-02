@@ -133,3 +133,13 @@ export const verifyToken = async (req,res) => {
     return res.status(401).json({ valid: false, message: "Token is invalid or expired" });
   }
 }
+
+export const hitApi = async(req,res) => {
+  try {
+    return res.status(200).json({
+      message : "API HIT SUCCESSFULLY"
+    })
+  } catch (error) {
+    return res.status(401).json({ message : error.message });
+  }
+}
