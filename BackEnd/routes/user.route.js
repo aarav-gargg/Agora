@@ -7,6 +7,6 @@ router.post("/register" , registerUser);
 router.post("/login" , loginUser);
 router.get("/:id" , getUserById)
 router.post("/verify",verifyToken)
-router.get("/api" , hitApi)
+router.put("/api" , hitApi)
 
 export default router;

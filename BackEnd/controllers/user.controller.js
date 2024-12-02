@@ -134,12 +134,13 @@ export const verifyToken = async (req,res) => {
   }
 }
 
-export const hitApi = async(req,res) => {
+export const hitApi = async (req,res) => {
   try {
     return res.status(200).json({
       message : "API HIT SUCCESSFULLY"
     })
   } catch (error) {
+    console.log(error)
     return res.status(401).json({ message : error.message });
   }
 }
